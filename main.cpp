@@ -21,23 +21,30 @@ int main(int argc, char *argv[])
         }
     }
 
-    /* TODO: FORK A NEW PROCESS */
+    /* TODR: FORK A NEW PROCESS */
+    fork();
 
-    if (/* TODO: CONDITION IF FORK FAILS*/)
+    if (fork() < 0/* TODR: CONDITION IF FORK FAILS*/)
     {
         cout << "Fork failed" << endl;
         return 1;
     }
-    else if (/* TODO: CONDITION IF CHILD PROCESS */)
+    else if (fork() == 0 /* TODR: CONDITION IF CHILD PROCESS */)
     {
         cout << "Hello from the child process!" << endl;
-        /* TODO: PRINT THE PARENT PID value: "The parent process ID is $ID" */
+        /* TODR: PRINT THE PARENT PID value: "The parent process ID is $ID" */
+        std::cout << "The parent process ID is " << getppid() << endl;
 
         if (option % 2 == 0) // if the option number is even, execute the command ls -l and terminate normally
         {
             std::cout << "The child process will execute the command: ls -l after 6 seconds" << std::endl;
-            /* TODO: SLEEP FOR 6 SECONDS*/
-            /* TODO: EXECUTE THE COMMAND ls -l USING EXECVP*/
+            /* TODR: SLEEP FOR 6 SECONDS*/
+            sleep(6);
+            /* TODR: EXECUTE THE COMMAND ls -l USING EXECVP*/
+            char* args[] = {"ls", "-l", "-a", NULL};
+            execvp(args[0], args);
+            delete[] args;
+            exit(0);
         }
         else // if the option number is odd, terminate with a kill signal
         {
@@ -45,22 +52,30 @@ int main(int argc, char *argv[])
             kill(getpid(), SIGINT);
         }
     }
-    else if (/*TODO: CONDITION IF PARENT PROCESS*/)
+    else if (fork() > 0 /*TODR: CONDITION IF PARENT PROCESS*/)
     {
         int status;
 
-        /* TODO: WAIT FOR CHILD PROCESS TO FINISH */
+        /* TODR: WAIT FOR CHILD PROCESS TO FINISH */
+        wait(&status);
 
         cout << "\nHello from the parent process!" << endl;
 
-        /* TODO: PRINT THE CHILD PID value: "The child process ID is $ID" */
+        /* TODR: PRINT THE CHILD PID value: "The child process ID is $ID" */
+        cout << "The child process ID is " << getpid() << endl;
 
-        /* TODO: PRINT THE EXIT STATUS OF THE CHILD PROCESS BASED waitpid().
+        /* TODR: PRINT THE EXIT STATUS OF THE CHILD PROCESS BASED waitpid().
         MAKE SURE TO PASS BY REFERENCE THE STATUS VARIABLE TO THE SECOND PARAMETER OF waitpid()
         IF WIFEXITED, PRINT THE MESSAGE "The child process exited normally" WITH ENDLINE
         IF WIFSIGNALED, PRINT THE MESSAGE "The child process exited due to the kill signal" WITH ENDLINE
         */
-    }
+       if (WIFEXITED(status)) {
+        cout << "The child process exited normally" << endl;
+       } else if (WIFSIGNALED(status)) {
+        cout << "The child process exited due to the kill signal" << endl;
+       }
 
+    }
+    
     return 0;
 }
