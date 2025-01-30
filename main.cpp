@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
             sleep(6);
             /* TODR: EXECUTE THE COMMAND ls -l USING EXECVP*/
             // char* args[] = {"ls", "-l", "-a", NULL};
-            // execvp(args[0], args);
+            //execvp(args[0], args);
             // delete[] args;
             exit(0);
         }
