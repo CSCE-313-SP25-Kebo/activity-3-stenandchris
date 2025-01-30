@@ -41,9 +41,9 @@ int main(int argc, char *argv[])
             /* TODR: SLEEP FOR 6 SECONDS*/
             sleep(6);
             /* TODR: EXECUTE THE COMMAND ls -l USING EXECVP*/
-            char* args[] = {"ls", "-l", "-a", NULL};
-            execvp(args[0], args);
-            delete[] args;
+            // char* args[] = {"ls", "-l", "-a", NULL};
+            // execvp(args[0], args);
+            // delete[] args;
             exit(0);
         }
         else // if the option number is odd, terminate with a kill signal
